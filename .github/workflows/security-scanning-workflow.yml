@@ -27,4 +27,4 @@ permissions:
 
 jobs:
   PlatSec-Security-Workflow:
-    uses: casey-williams-rh/security-actions/.github/workflows/platsec-security-workflow.yml@master
+    uses: casey-williams-rh/security-actions/.github/workflows/platsec-security-scan-reusable-workflow.yml@master
