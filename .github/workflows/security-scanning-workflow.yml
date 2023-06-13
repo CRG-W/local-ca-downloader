@@ -13,7 +13,7 @@
 # For more information about the Anchore SBOM tool, Syft, see
 # https://github.com/anchore/syft
 
-name: ConsoleDot Platform Security Scan
+name: Security Scan
 
 on:
   push:
@@ -22,9 +22,6 @@ on:
     # The branches below must be a subset of the branches above
     branches: [ "main", "master", "security-compliance" ]
 
-permissions:
-  contents: read
-
 jobs:
-  PlatSec-Security-Workflow:
+  Security-Scan:
     uses: casey-williams-rh/security-actions/.github/workflows/platsec-security-scan-reusable-workflow.yml@master
