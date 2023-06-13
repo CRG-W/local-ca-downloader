@@ -7,7 +7,10 @@ RUN go mod download
 RUN CGO_ENABLED=0 go build -o /go/bin/app
 
 # Now copy it into our base image.
-FROM gcr.io/distroless/static-debian11
+FROM registry.access.redhat.com/ubi8/ubi-minimal
+RUN microdnf update -y && \
+    microdnf install -y openssl && \
+    microdnf clean all
 COPY --from=build /go/bin/app /
 COPY templates /templates
 
