@@ -1,0 +1,9 @@
+version: '3'
+services:
+  local-ca-downloader:
+    build:
+      context: .
+    ports:
+      - 8081:8081
+    volumes:
+      - ./certs:/certs
