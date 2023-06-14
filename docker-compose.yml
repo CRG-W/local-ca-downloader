@@ -3,6 +3,13 @@ services:
   local-ca-downloader:
     build:
       context: .
+    environment:
+      - CERT_PASSPHRASE=${CERT_PASSPHRASE}
+      - CA_TTL_DAYS=${CA_TTL_DAYS}
+      - CERT_TTL_DAYS=${CERT_TTL_DAYS}
+      - CA_SUBJECT=${CA_SUBJECT}
+      - CERT_CN=${CERT_CN}
+      - CERT_ALT_NAMES=${CERT_ALT_NAMES}
     ports:
       - 8081:8081
     volumes:

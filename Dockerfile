@@ -13,7 +13,6 @@ RUN microdnf update -y && \
     microdnf clean all
 COPY --from=build /go/bin/app /
 COPY templates /templates
+COPY /scripts/ .
 
-EXPOSE 8080
-
-CMD ["/app"]
+ENTRYPOINT ["/entrypoint.sh"]
