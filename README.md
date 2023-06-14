@@ -26,15 +26,45 @@ configurable options:
 | `CERT_ALT_NAMES`     | the DNS/IPs you wish the cert to be valid for, formatted as: `DNS:localhost,IP:127.0.0.1` |
 
 ## Build and Run
-The first time you build/run the image, certs will be generated locally and placed
-in your `/certs` directory. Subsequent builds will not overwrite these certs. If you
-wish to generate new certs, delete the cert files in your `/certs` directory and
-rebuild.
+The first time you build/run the image, you'll need to run the container with `GENERATE_CERTS=true`
+With this, certs will be generated locally and placed in your `/certs` directory.
+These certs will also be used to serve the service over SSL.
 
-Run the following to generate certs (when none found) and start the web app, which
-will be served on `http://localhost:8081`
+Subsequent builds will not need to generate certs, so you should _not_ run with this
+environment variable set unless you wish to wipe your old certs/regenerate if and
+when certs expire.
+
+### Auth
+You'll also need to set `AUTH_PASSWORD=<web-app-password>` in order to gain access
+to the web service in the browser. You can either export this `export AUTH_PASSWORD=<web-app-password>`
+in the shell you'll be running `docker-compose up` from, or supply it in the compose
+command:
+```
+$ export AUTH_PASSWORD=<web-app-password> # or injected into your env via .env, or some other way
+$ ...
+$ ...
+$ docker-compose up
+```
+or
+```
+$ AUTH_PASSWORD=<web-app-password> docker-compose up
+```
+
+### First Run / Rebuild Certs
+With your `AUTH_PASSWORD` set, run the following to build/run the image and (re)generate certs:
+```
+$ GENERATE_CERTS=true docker-compose up
+```
+
+### Subsequent Runs / No Cert Rebuild
+After certs are generated, you can simply run the following when you want to start the service:
 ```
 $ docker-compose up
 ```
 
-You can now download your certs to use locally!
+### Access the UI/Enable SSL
+You can now access/download your certs to use locally by visiting `https://localhost:8443/`
+
+Download your public CA and add it to your local trust to get rid of the "not secure"
+browser warning, as the service will start over a TLS connection, consuming the
+certs you just generated!
