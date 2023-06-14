@@ -79,8 +79,8 @@ func main() {
 		return c.Render(http.StatusOK, "login.html", nil)
 	})
 
-	e.GET("/local-public-ca.pem", func(c echo.Context) error {
-		return c.Attachment("local-public-ca.pem", "local-public-ca.pem")
+	e.GET("/ca", func(c echo.Context) error {
+		return c.Attachment("certs/public-ca.pem", "public-ca.pem")
 	}, authMiddleware)
 
 	// Start the server
