@@ -84,9 +84,9 @@ func main() {
 	}, authMiddleware)
 
 	// Start the server
-	address := ":8081"
+	address := ":8443"
 	fmt.Printf("Server listening on %s\n", address)
-	e.Start(address)
+	e.StartTLS(address, "/certs/cert.pem", "/certs/cert-key.pem")
 }
 
 // Template struct for rendering HTML templates
