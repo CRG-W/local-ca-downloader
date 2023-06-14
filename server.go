@@ -79,14 +79,14 @@ func main() {
 		return c.Render(http.StatusOK, "login.html", nil)
 	})
 
-	e.GET("/local-public-ca.pem", func(c echo.Context) error {
-		return c.Attachment("local-public-ca.pem", "local-public-ca.pem")
+	e.GET("/ca", func(c echo.Context) error {
+		return c.Attachment("certs/public-ca.pem", "public-ca.pem")
 	}, authMiddleware)
 
 	// Start the server
-	address := ":8081"
+	address := ":8443"
 	fmt.Printf("Server listening on %s\n", address)
-	e.Start(address)
+	e.StartTLS(address, "/certs/cert.pem", "/certs/cert-key.pem")
 }
 
 // Template struct for rendering HTML templates

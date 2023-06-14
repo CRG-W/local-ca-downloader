@@ -1,0 +1,18 @@
+version: '3'
+services:
+  local-ca-downloader:
+    build:
+      context: .
+    environment:
+      - GENERATE_CERTS=${GENERATE_CERTS}
+      - AUTH_PASSWORD=${AUTH_PASSWORD}
+      - CERT_PASSPHRASE=${CERT_PASSPHRASE}
+      - CA_TTL_DAYS=${CA_TTL_DAYS}
+      - CERT_TTL_DAYS=${CERT_TTL_DAYS}
+      - CA_SUBJECT=${CA_SUBJECT}
+      - CERT_CN=${CERT_CN}
+      - CERT_ALT_NAMES=${CERT_ALT_NAMES}
+    ports:
+      - 8443:8443
+    volumes:
+      - ./certs:/certs
