@@ -2,20 +2,28 @@
 <html>
 
 <head>
-    <title>Login Page</title>
+    <title>Local Cert Manager | Login Page</title>
+    <link rel="icon" href="../images/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="../images/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="https://unpkg.com/patternfly/dist/css/patternfly.min.css">
     <link rel="stylesheet" href="https://unpkg.com/patternfly/dist/css/patternfly-additions.min.css">
     <style>
         body {
             background-color: #1e2125;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             height: 100vh;
         }
 
+        .logo-container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
         .login-container {
-            width: 300px;
+            width: 400px;
             padding: 20px;
             background-color: #ffffff;
             border-radius: 4px;
@@ -45,28 +53,32 @@
         .login-container button {
             width: 100%;
             padding: 10px;
-            background-color: #007bba;
-            color: #ffffff;
+            background-color: #68d9b2;
+            color: #1e2125;
             border: none;
             border-radius: 4px;
             cursor: pointer;
         }
 
         .login-container button:hover {
-            background-color: #005a84;
+            background-color: #59bf9b;
         }
     </style>
 </head>
 
+
 <body>
+    <div class="logo-container">
+        <img src="../images/lcm_logo_mint.png" alt="Logo" style="width: 400px;">
+    </div>
     <div class="login-container">
-        <h1>Login</h1>
+        <!-- <h1>Login</h1> -->
         <form action="/" method="POST">
             <div class="form-group">
                 <label for="password">Password:</label>
                 <input type="password" id="password" name="password" placeholder="Enter your password">
             </div>
-            <button type="submit">Login</button>
+            <button type="submit"><strong>Login</strong></button>
         </form>
         {{ if .Error }}
         <br>
