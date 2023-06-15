@@ -83,6 +83,14 @@ func main() {
 		return c.Attachment("certs/public-ca.pem", "public-ca.pem")
 	}, authMiddleware)
 
+	e.GET("/cert", func(c echo.Context) error {
+		return c.Attachment("certs/cert.pem", "cert.pem")
+	}, authMiddleware)
+
+	e.GET("/certKey", func(c echo.Context) error {
+		return c.Attachment("certs/cert-key.pem", "cert-key.pem")
+	}, authMiddleware)
+
 	// Start the server
 	address := ":8443"
 	fmt.Printf("Server listening on %s\n", address)
