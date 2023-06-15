@@ -72,7 +72,7 @@ func main() {
 
 	// Routes
 	e.Any("/", func(c echo.Context) error {
-		return c.Render(http.StatusOK, "index.html", certificate.BuildCertificateDetails("certs/public-ca.pem"))
+		return c.Render(http.StatusOK, "index.html", nil)
 	}, authMiddleware)
 
 	e.GET("/login", func(c echo.Context) error {
@@ -82,6 +82,14 @@ func main() {
 
 	e.GET("/ca", func(c echo.Context) error {
 		return c.Attachment("certs/public-ca.pem", "public-ca.pem")
+	}, authMiddleware)
+
+	e.GET("/cert", func(c echo.Context) error {
+		return c.Attachment("certs/cert.pem", "cert.pem")
+	}, authMiddleware)
+
+	e.GET("/certKey", func(c echo.Context) error {
+		return c.Attachment("certs/cert-key.pem", "cert-key.pem")
 	}, authMiddleware)
 
 	// Start the server
