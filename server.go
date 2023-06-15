@@ -38,7 +38,7 @@ func main() {
 					// Determine the error message based on the condition
 					errorMsg := "Invalid password"
 					if reqPassword == "" {
-						errorMsg = "Not Authenticated"
+						errorMsg = ""
 					}
 
 					// Prepare the data for rendering the login page with the error message
