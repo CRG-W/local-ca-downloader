@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Navigation Page</title>
+
+  <link rel="stylesheet" href="https://unpkg.com/patternfly/dist/css/patternfly.css">
+  <link rel="stylesheet" href="https://unpkg.com/patternfly/dist/css/patternfly.min.css">
+  <link rel="stylesheet" href="https://unpkg.com/patternfly/dist/css/patternfly-additions.min.css">
+
+  <style>
+    body {
+      display: flex;
+      height: 100vh;
+      margin: 0;
+      padding: 0;
+    }
+
+    .nav-container {
+      width: 250px;
+      background-color: #1e2125;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      color: #ffffff;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .logo img {
+      width: 40px;
+      height: 40px;
+      margin-right: 10px;
+    }
+
+    .nav-tabs {
+      flex-direction: column;
+      margin-bottom: 20px;
+    }
+
+    .nav-item {
+      margin-bottom: 5px;
+    }
+
+    .nav-item a.nav-link {
+      color: #ffffff !important;
+    }
+
+    .content {
+      flex-grow: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .tab-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .tab-pane {
+      display: none;
+    }
+
+    .tab-pane.active {
+      display: block;
+    }
+
+    .page {
+      margin-top: 20px;
+      text-align: center;
+    }
+
+    .page-title {
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    .page-description {
+      margin-top: 10px;
+      margin-bottom: 20px;
+      background-color: #a6a3a3;
+      padding: 10px;
+      border-radius: 4px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .download-button {
+      padding: 10px 20px;
+      background-color: #68D9B2;
+      color: black;
+      text-decoration: none;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="nav-container">
+    <div class="logo">
+      <img src="logo.png" alt="Logo">
+    </div>
+
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <a class="nav-link active" data-toggle="tab" href="#tab1" onclick="handleTabSelection('/ca')">Local Public CA</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" data-toggle="tab" href="#tab2" onclick="handleTabSelection('/cert')">Public SSL Cert</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" data-toggle="tab" href="#tab3" onclick="handleTabSelection('/')">Private SSL Cert</a>
+      </li>
+    </ul>
+  </div>
+
+  <div class="content">
+    <div class="tab-content">
+      <div id="tab1" class="tab-pane active">
+        <div class="page">
+          <h1 class="page-title">Local Public CA</h1>
+          <div class="page-description">
+            <p><strong>Issued:</strong> {{ .Issued }}</p>
+            <p><strong>Expiration:</strong> {{ .Expiration }}</p>
+            <p><strong>Common Name:</strong> {{ .CommonName }}</p>
+            <p><strong>Subject:</strong> {{ .Subject }}</p>
+            <p><strong>Issuer:</strong> {{ .Issuer }}</p>
+            <p><strong>DNS Names:</strong> {{ .DNSNames }}</p>
+            <p><strong>IP Addresses:</strong> {{ .IPAddresses }}</p>
+            <p><strong>Email Addresses:</strong> {{ .EmailAddresses }}</p>
+            <p><strong>URIs:</strong> {{ .URIs }}</p>
+          </div>
+          <a href="/download/ca" class="download-button">Download</a>
+        </div>
+      </div>
+      <div id="tab2" class="tab-pane">
+        <div class="page">
+          <h1 class="page-title">Public SSL Cert</h1>
+          <div class="page-description">
+            <p><strong>Issued:</strong> {{ .Issued }}</p>
+            <p><strong>Expiration:</strong> {{ .Expiration }}</p>
+            <p><strong>Common Name:</strong> {{ .CommonName }}</p>
+            <p><strong>Subject:</strong> {{ .Subject }}</p>
+            <p><strong>Issuer:</strong> {{ .Issuer }}</p>
+            <p><strong>DNS Names:</strong> {{ .DNSNames }}</p>
+            <p><strong>IP Addresses:</strong> {{ .IPAddresses }}</p>
+            <p><strong>Email Addresses:</strong> {{ .EmailAddresses }}</p>
+            <p><strong>URIs:</strong> {{ .URIs }}</p>
+          </div>
+          <a href="/download/cert" class="download-button">Download</a>
+        </div>
+      </div>
+      <div id="tab3" class="tab-pane">
+        <div class="page">
+          <h1 class="page-title">Private SSL Cert</h1>
+          <div class="page-description">
+            <p><strong>Issued:</strong> {{ .Issued }}</p>
+            <p><strong>Expiration:</strong> {{ .Expiration }}</p>
+            <p><strong>Common Name:</strong> {{ .CommonName }}</p>
+            <p><strong>Subject:</strong> {{ .Subject }}</p>
+            <p><strong>Issuer:</strong> {{ .Issuer }}</p>
+            <p><strong>DNS Names:</strong> {{ .DNSNames }}</p>
+            <p><strong>IP Addresses:</strong> {{ .IPAddresses }}</p>
+            <p><strong>Email Addresses:</strong> {{ .EmailAddresses }}</p>
+            <p><strong>URIs:</strong> {{ .URIs }}</p>
+          </div>
+          <a href="/download/certKey" class="download-button">Download</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/patternfly/4.9.1/js/patternfly.min.js"></script>
+  <script>
+    $(document).ready(function () {
+      $('.nav-link').on('click', function () {
+        var target = $(this).attr('href');
+        $('.tab-pane').removeClass('active');
+        $(target).addClass('active');
+      });
+    });
+  </script>
+  <script>
+    // Function to handle tab selection
+    function handleTabSelection(url) {
+      fetch(url)
+        .then(response => {
+          if (response.ok) {
+            console.log("Request successful!");
+          } else {
+            console.error("Request failed:", response.status);
+          }
+        })
+        .catch(error => {
+          console.error("Network error:", error);
+        });
+    }
+  </script>
+</body>
+
+</html>
