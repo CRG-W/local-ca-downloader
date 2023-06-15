@@ -6,6 +6,8 @@ import (
 	"fmt"
 	"html/template"
 	"io"
+	"local-ca-downloader/internal/certificate"
+
 	// "local-ca-downloader/internal/certificate"
 	"net/http"
 	"os"
@@ -70,9 +72,13 @@ func main() {
 	// Register the HTML template renderer
 	e.Renderer = createRenderer()
 
+	// Build Cert-Details for all Certs
+	publicCADetails := certificate.BuildCertificateDetails("certs/public-ca.pem")
+	publicCertDetails := certificate.BuildCertificateDetails("certs/cert.pem")
+
 	// Routes
 	e.Any("/", func(c echo.Context) error {
-		return c.Render(http.StatusOK, "index.html", nil)
+		return c.Render(http.StatusOK, "nav.html", nil)
 	}, authMiddleware)
 
 	e.GET("/login", func(c echo.Context) error {
@@ -81,14 +87,22 @@ func main() {
 	})
 
 	e.GET("/ca", func(c echo.Context) error {
-		return c.Attachment("certs/public-ca.pem", "public-ca.pem")
+		return c.Render(http.StatusOK, "nav.html", publicCADetails)
 	}, authMiddleware)
 
 	e.GET("/cert", func(c echo.Context) error {
+		return c.Render(http.StatusOK, "nav.html", publicCertDetails)
+	}, authMiddleware)
+
+	e.GET("/download/ca", func(c echo.Context) error {
+		return c.Attachment("certs/public-ca.pem", "public-ca.pem")
+	}, authMiddleware)
+
+	e.GET("/download/cert", func(c echo.Context) error {
 		return c.Attachment("certs/cert.pem", "cert.pem")
 	}, authMiddleware)
 
-	e.GET("/certKey", func(c echo.Context) error {
+	e.GET("/download/certKey", func(c echo.Context) error {
 		return c.Attachment("certs/cert-key.pem", "cert-key.pem")
 	}, authMiddleware)
 
