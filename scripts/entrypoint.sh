@@ -33,7 +33,7 @@ generate_certs() {
   -out /certs/cert.csr
 
   # Set the alt names
-  echo "subjectAltName=${CERT_ALT_NAMES}" >> extfile.cnf
+  echo "subjectAltName=${CERT_ALT_NAMES}" >> /certs/extfile.cnf
 
   # Generate a Cert from the CA
   openssl x509 \
@@ -45,7 +45,7 @@ generate_certs() {
   -CA /certs/public-ca.pem \
   -CAkey /certs/ca-key.pem \
   -out /certs/cert.pem \
-  -extfile extfile.cnf \
+  -extfile /certs/extfile.cnf \
   -CAcreateserial
 }
 
