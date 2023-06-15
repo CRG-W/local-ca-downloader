@@ -8,13 +8,9 @@
 
   <title>Local Public CA Downloader</title>
 
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/patternfly/4.0.0/css/patternfly.min.css"
-    integrity="sha512-K4ZXJzjR4P3uobxX7Hd3qbm6LQ8XG2wCSoHQQ2sXheM0m3gdYKSSApTmzm1Sgkhy3KmXULahXHBLPjTJkfqzFg=="
-    crossorigin="anonymous" />
-
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/patternfly/4.0.0/js/patternfly.min.js"
-    integrity="sha512-UcHz5XyI06HqOPr7dzbsREa9yVlryQk1UOvFe1I5KqZmIaVqxH5Wp63POKTt7A7D9vYBNtN7l9jD+6KzVd0vzg=="
-    crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://unpkg.com/patternfly/dist/css/patternfly.css">
+  <link rel="stylesheet" href="https://unpkg.com/patternfly/dist/css/patternfly.min.css">
+  <link rel="stylesheet" href="https://unpkg.com/patternfly/dist/css/patternfly-additions.min.css">
 
   <style>
     body {
@@ -22,34 +18,53 @@
       align-items: center;
       justify-content: center;
       height: 100vh;
+      background-color: #1e2125; /* Grey background color */
     }
-
-    .cover-container {
-      max-width: 500px;
+    
+    .container {
+      background-color: white;
+      padding: 20px;
+      border-radius: 5px;
+      max-width: 600px;
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+    }
+    
+    .container a {
+      margin-bottom: 10px;
+    }
+    
+    .container a:last-child {
+      margin-bottom: 0;
     }
   </style>
 </head>
 
 <body>
-  <div class="cover-container">
-    <header></header>
+  <header></header>
 
-    <main class="px-3">
-      <h2>Local Network</h2>
-      <h1>Public Certificate Authority</h1>
-      <br>
-      <p class="lead">
-        Use the button below to download your local network's Public Certificate Authority file.<br><br>
-        You can then use the downloaded PEM file and add it to systems on your local network so that<br>
-        they will trust the TLS Certificates you have generated with your Local Certificate Authority.
-      </p>
-      <br>
-      <button type="button" class="pf-c-button pf-m-primary">
-        <a href="local-public-ca.pem"><b>Download Local Public CA File</b>
-        </a>
-      </button>
-    </main>
-  </div>
+  <main class="container py-4">
+    <h1>Local Network</h1>
+    <h2>Public Certificate Authority</h2>
+    <br>
+    <p class="lead">
+      Use the buttons below to download your local network's certificate files.<br><br>
+      You can then use the downloaded files and add them to systems on your local network.
+    </p>
+    <br>
+    <a href="/ca" class="btn btn-primary">
+      Download Local Public CA File
+    </a>
+
+    <a href="/cert" class="btn btn-primary">
+      Download Public SSL Cert
+    </a>
+
+    <a href="/certKey" class="btn btn-primary">
+      Download Private SSL Cert
+    </a>
+  </main>
 </body>
 
 </html>
