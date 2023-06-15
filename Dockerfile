@@ -12,7 +12,7 @@ RUN microdnf update -y && \
     microdnf install -y openssl && \
     microdnf clean all
 COPY --from=build /go/bin/app /
-COPY images /images
+COPY assets /assets
 COPY templates /templates
 COPY /scripts/ .
 
