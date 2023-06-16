@@ -79,7 +79,7 @@ func main() {
 
 	// Routes
 	e.Any("/", func(c echo.Context) error {
-		return c.Render(http.StatusOK, "nav.html", nil)
+		return c.Render(http.StatusOK, "nav.html", publicCADetails)
 	}, authMiddleware)
 
 	e.GET("/login", func(c echo.Context) error {
