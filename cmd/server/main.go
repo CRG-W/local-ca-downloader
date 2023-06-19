@@ -76,6 +76,7 @@ func main() {
 	// Build Cert-Details for all Certs
 	publicCADetails := certificate.BuildCertificateDetails("certs/public-ca.pem")
 	publicCertDetails := certificate.BuildCertificateDetails("certs/cert.pem")
+	// privateCertDetails := certificate.BuildCertificateDetails("certs/cert-key.pem")
 
 	// Routes
 	e.Any("/", func(c echo.Context) error {
@@ -94,6 +95,10 @@ func main() {
 	e.GET("/cert", func(c echo.Context) error {
 		return c.Render(http.StatusOK, "nav.html", publicCertDetails)
 	}, authMiddleware)
+
+	// e.GET("/certKey", func(c echo.Context) error {
+	// 	return c.Render(http.StatusOK, "nav.html", privateCertDetails)
+	// }, authMiddleware)
 
 	e.GET("/download/ca", func(c echo.Context) error {
 		return c.Attachment("certs/public-ca.pem", "public-ca.pem")
