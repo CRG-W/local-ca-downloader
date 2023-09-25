@@ -115,7 +115,7 @@ func main() {
 	// Start the server
 	address := ":8443"
 	fmt.Printf("Server listening on %s\n", address)
-	e.StartTLS(address, "/certs/cert.pem", "/certs/cert-key.pem")
+	e.Logger.Fatal(e.StartTLS(address, "certs/cert.pem", "certs/cert-key.pem"))
 }
 
 // Template struct for rendering HTML templates
