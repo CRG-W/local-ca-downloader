@@ -18,7 +18,7 @@ import (
 
 func main() {
 	e := echo.New()
-	e.Static("/static", "assets")
+	e.Static("/static", "static")
 
 	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())
