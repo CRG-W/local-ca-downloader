@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Certificate Generation Form</title>
+    <link rel="icon" href="../static/images/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="../static/images/favicon.ico" type="image/x-icon">
+</head>
+<body>
+    <h2>Certificate Authority Information</h2>
+    <form action="submit.php" method="post">
+        <label for="ca_subject">Certificate Authority Subject:</label>
+        <input type="text" id="ca_subject" name="ca_subject" required>
+        <span class="example">(e.g., /C=US/ST=AZ/L=Phoenix/O=Home/CN=HomeLab)</span><br><br>
+
+        <label for="ca_ttl">Certificate Authority TTL Days:</label>
+        <input type="number" id="ca_ttl" name="ca_ttl" required>
+        <span class="example">(e.g., 365)</span><br><br>
+
+        <label for="ca_passphrase">Certificate Authority Passphrase:</label>
+        <input type="password" id="ca_passphrase" name="ca_passphrase" required>
+        <span class="example">(e.g., YourSecurePassphrase)</span><br><br>
+
+        <h2>TLS Certificate Information</h2>
+        <label for="tls_cn">TLS Certificate CN:</label>
+        <input type="text" id="tls_cn" name="tls_cn" required>
+        <span class="example">(e.g., HomeLab)</span><br><br>
+
+        <label for="tls_ttl">TLS Certificate TTL Days:</label>
+        <input type="number" id="tls_ttl" name="tls_ttl" required>
+        <span class="example">(e.g., 365)</span><br><br>
+
+        <label for="tls_alt_names">TLS Certificate ALT Names:</label><br>
+        <textarea id="tls_alt_names" name="tls_alt_names" rows="4" cols="50"></textarea>
+        <span class="example">(e.g., DNS:localhost, IP:127.0.0.1)</span><br><br>
+
+        <input type="submit" value="Submit">
+    </form>
+</body>
+</html>

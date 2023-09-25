@@ -70,7 +70,13 @@ Download your public CA and add it to your local trust to get rid of the "not se
 browser warning, as the service will start over a TLS connection, consuming the
 certs you just generated!
 ## Running Locally
-To run the app locally outside a container, ensure you have generated a public and private cert (following [ssl-cert](https://github.com/CRG-W/local-ca-downloader/blob/main/ssl-certs.md) guide), and place them in the `/certs` directory. 
+To run the app locally outside a container, ensure you have generated a `public-ca.pem`, `cert-key.pem` and `cert.pem` *(following the [ssl-cert](https://github.com/CRG-W/local-ca-downloader/blob/main/ssl-certs.md) guide)*, and place them in the `/certs` directory. 
+```
+/certs
+  |-> public-ca.pem
+  |-> cert-key.pem
+  |-> cert.pem
+```
 
 Then, you can run the following command:
 ```
