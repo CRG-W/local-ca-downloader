@@ -17,14 +17,14 @@ openssl genrsa -aes256 -out ca-key.pem 4096
 2. Generate a public CA Cert
 
 ```bash
-openssl req -new -x509 -sha256 -days 365 -key ca-key.pem -out ca.pem
+openssl req -new -x509 -sha256 -days 365 -key ca-key.pem -out public-ca.pem
 ```
 
 ### Optional Stage: View Certificate's Content
 
 ```bash
-openssl x509 -in ca.pem -text
-openssl x509 -in ca.pem -purpose -noout -text
+openssl x509 -in public-ca.pem -text
+openssl x509 -in public-ca.pem -purpose -noout -text
 ```
 
 ### Generate Certificate
@@ -55,7 +55,7 @@ echo extendedKeyUsage = serverAuth >> extfile.cnf
 4. Create the certificate
 
 ```bash
-openssl x509 -req -sha256 -days 365 -in cert.csr -CA ca.pem -CAkey ca-key.pem -out cert.pem -extfile extfile.cnf -CAcreateserial
+openssl x509 -req -sha256 -days 365 -in cert.csr -CA public-ca.pem -CAkey ca-key.pem -out cert.pem -extfile extfile.cnf -CAcreateserial
 ```
 
 ## Certificate Formats
@@ -72,13 +72,13 @@ X.509 Certificates exist in Base64 Formats **PEM (.pem, .crt, .ca-bundle)**, **P
 
 ## Verify Certificates
 
-`openssl verify -CAfile ca.pem -verbose cert.pem`
+`openssl verify -CAfile public-ca.pem -verbose cert.pem`
 
 ## Install the CA Cert as a trusted root CA
 
 ### On Debian & Derivatives
 
-- Move the CA certificate (`ca.pem`) into `/usr/local/share/ca-certificates/ca.crt`.
+- Move the CA certificate (`public-ca.pem`) into `/usr/local/share/ca-certificates/ca.crt`.
 - Update the Cert Store with:
 
 ```bash
@@ -89,7 +89,7 @@ Refer the documentation [here](https://wiki.debian.org/Self-Signed_Certificate) 
 
 ### On Fedora
 
-- Move the CA certificate (`ca.pem`) to `/etc/pki/ca-trust/source/anchors/ca.pem` or `/usr/share/pki/ca-trust-source/anchors/ca.pem`
+- Move the CA certificate (`public-ca.pem`) to `/etc/pki/ca-trust/source/anchors/public-ca.pem` or `/usr/share/pki/ca-trust-source/anchors/public-ca.pem`
 - Now run (with sudo if necessary):
 
 ```bash
@@ -122,10 +122,10 @@ wiki page [here](https://wiki.archlinux.org/title/User:Grawity/Adding_a_trusted_
 
 ### On Windows
 
-Assuming the path to your generated CA certificate as `C:\ca.pem`, run:
+Assuming the path to your generated CA certificate as `C:\public-ca.pem`, run:
 
 ```powershell
-Import-Certificate -FilePath "C:\ca.pem" -CertStoreLocation Cert:\LocalMachine\Root
+Import-Certificate -FilePath "C:\public-ca.pem" -CertStoreLocation Cert:\LocalMachine\Root
 ```
 
 - Set `-CertStoreLocation` to `Cert:\CurrentUser\Root` in case you want to trust certificates only for the logged in user.
@@ -135,7 +135,7 @@ OR
 In Command Prompt, run:
 
 ```sh
-certutil.exe -addstore root C:\ca.pem
+certutil.exe -addstore root C:\public-ca.pem
 ```
 
 - `certutil.exe` is a built-in tool (classic `System32` one) and adds a system-wide trust anchor.
@@ -148,6 +148,6 @@ The exact steps vary device-to-device, but here is a generalised guide:
 2. Locate `Encryption and Credentials` section. It is generally found under `Settings > Security > Encryption and Credentials`
 3. Choose `Install a certificate`
 4. Choose `CA Certificate`
-5. Locate the certificate file `ca.pem` on your SD Card/Internal Storage using the file manager.
+5. Locate the certificate file `public-ca.pem` on your SD Card/Internal Storage using the file manager.
 6. Select to load it.
 7. Done!
