@@ -7,6 +7,7 @@ import (
 	"html/template"
 	"io"
 	"local-ca-downloader/internal/certificate"
+	"time"
 
 	// "local-ca-downloader/internal/certificate"
 	"net/http"
@@ -112,6 +113,8 @@ func main() {
 		return c.Attachment("certs/cert-key.pem", "cert-key.pem")
 	}, authMiddleware)
 
+	e.POST("/logout", deleteCookieHandler)
+
 	// Start the server
 	address := ":8443"
 	fmt.Printf("Server listening on %s\n", address)
@@ -146,4 +149,17 @@ func createRenderer() echo.Renderer {
 // Function to base64 encode a string
 func encodeBase64(str string) string {
 	return base64.StdEncoding.EncodeToString([]byte(str))
+}
+
+// Function to delete a cookie (Basically it just clears the cookie out)
+func deleteCookieHandler(c echo.Context) error {
+	cookie := new(http.Cookie)
+	cookie.Name = "authenticated"
+	cookie.Value = ""
+	cookie.Expires = time.Now().Add(-time.Hour)
+	cookie.Path = "/"
+
+	c.SetCookie(cookie)
+
+	return c.Redirect(http.StatusSeeOther, "/")
 }

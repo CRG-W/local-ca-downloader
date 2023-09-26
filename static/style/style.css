@@ -29,7 +29,16 @@ body {
     width: 100%;
     z-index: 9999;
     border-bottom: 5px solid #68d9b2;
-    height: 75px
+    height: 75px;
+    display: inline-block;
+}
+
+.masthead ul {
+    list-style: none;
+}
+
+.masthead ul li {
+    float: left;
 }
 
 .logo {
@@ -41,6 +50,28 @@ body {
 
 .logo img {
     height: 65px;
+}
+
+.logout-button {
+    display: flex;
+    margin-top: 10px;
+    border: 0px;
+    justify-content: center;
+    width: 120px;
+    margin-left: auto;
+    margin-right: 0;
+    padding: 10px 10px;
+    background-color: #68D9B2;
+    color: #2b343b;
+    text-decoration: none;
+    border-radius: 10px;
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+.logout-button:hover {
+    background-color: #5ac09c;
 }
 
 .navigation {
@@ -86,7 +117,7 @@ body {
     padding-left: 10px;
 }
 
-.navigation ul li.active a::before{
+.navigation ul li.active a::before {
     content: '';
     position: absolute;
     top: -30px;
@@ -98,7 +129,7 @@ body {
     box-shadow: 15px 15px 0 #68d9b2;
 }
 
-.navigation ul li.active a::after{
+.navigation ul li.active a::after {
     content: '';
     position: absolute;
     bottom: -30px;
@@ -170,7 +201,7 @@ body {
     margin-top: 10px;
     justify-content: center;
     width: 120px;
-    margin-left: auto; 
+    margin-left: auto;
     margin-right: 0;
     padding: 10px 10px;
     background-color: #68D9B2;
