@@ -7,11 +7,10 @@ import (
 	"html/template"
 	"io"
 	"local-ca-downloader/internal/certificate"
-	"time"
-
-	// "local-ca-downloader/internal/certificate"
 	"net/http"
 	"os"
+	"os/exec"
+	"time"
 
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
@@ -115,6 +114,12 @@ func main() {
 
 	e.POST("/logout", deleteCookieHandler)
 
+	e.GET("/generate-certs", func(c echo.Context) error {
+		return c.Render(http.StatusOK, "generate-certs.html", nil)
+	}, authMiddleware)
+
+	e.POST("/generate", generateNewCerts, authMiddleware)
+
 	// Start the server
 	address := ":8443"
 	fmt.Printf("Server listening on %s\n", address)
@@ -162,4 +167,29 @@ func deleteCookieHandler(c echo.Context) error {
 	c.SetCookie(cookie)
 
 	return c.Redirect(http.StatusSeeOther, "/")
+}
+
+func generateNewCerts(c echo.Context) error {
+	caPassphrase := c.FormValue("ca_passphrase")
+	caTtl := c.FormValue("ca_ttl")
+	caSubject := c.FormValue("ca_subject")
+	tlsCn := c.FormValue("tls_cn")
+	tlsAltNames := c.FormValue("tls_alt_names")
+	tlsTtl := c.FormValue("tls_ttl")
+
+	cmd := exec.Command("./scripts/generate_new_certs.sh", caPassphrase, caTtl, caSubject, tlsCn, tlsAltNames, tlsTtl)
+	cmd.Stdout = os.Stdout
+	cmd.Stderr = os.Stderr
+
+	err := cmd.Run()
+	if err != nil {
+		data := map[string]interface{}{
+			"Error": "Error generating new certs, original certs have been restored. Please check your input and try again.",
+		}
+		return c.Render(http.StatusOK, "generate-certs.html", data)
+	}
+	data := map[string]interface{}{
+		"Success": "Certificate generated successfully.",
+	}
+	return c.Render(http.StatusOK, "generate-certs.html", data)
 }

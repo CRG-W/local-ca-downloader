@@ -14,6 +14,6 @@ RUN microdnf update -y && \
 COPY --from=build /go/bin/app /
 COPY static /static
 COPY templates /templates
-COPY /scripts/ .
+COPY scripts /scripts
 
-ENTRYPOINT ["/entrypoint.sh"]
+ENTRYPOINT ["/scripts/entrypoint.sh"]
