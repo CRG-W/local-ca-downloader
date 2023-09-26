@@ -12,9 +12,18 @@
 
 <body>
     <header class="masthead">
-        <div class="logo">
-            <img src="../static/images/lcm_logo_mint.png" alt="Logo">
-        </div>
+        <ul>
+            <li>
+                <div class="logo">
+                    <img src="../static/images/lcm_logo_mint.png" alt="Logo">
+                </div>
+            </li>
+            <li>
+                <form action="/logout" method="POST">
+                    <button class="logout-button" type="submit"><strong>Logout</strong></button>
+                </form>
+            </li>
+        </ul>
     </header>
 
     <div class="navigation">
