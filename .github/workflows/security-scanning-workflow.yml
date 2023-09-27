@@ -17,11 +17,11 @@ name: Security Scan
 
 on:
   push:
-    branches: [ "main", "master", "security-compliance" ]
+    branches: [ "main", "master" ]
   pull_request:
     # The branches below must be a subset of the branches above
-    branches: [ "main", "master", "security-compliance" ]
+    branches: [ "main", "master" ]
 
 jobs:
   Security-Scan:
-    uses: casey-williams-rh/security-actions/.github/workflows/platsec-security-scan-reusable-workflow.yml@master
+    uses: RedHatInsights/platform-security-gh-workflow/.github/workflows/platsec-security-scan-reusable-workflow.yml@master
