@@ -1,90 +1,101 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
     <title>Local Cert Manager | Login Page</title>
     <link rel="icon" href="../static/images/favicon.ico" type="image/x-icon">
     <link rel="shortcut icon" href="../static/images/favicon.ico" type="image/x-icon">
-    <link rel="stylesheet" href="https://unpkg.com/patternfly/dist/css/patternfly.min.css">
-    <link rel="stylesheet" href="https://unpkg.com/patternfly/dist/css/patternfly-additions.min.css">
-    <style>
-        body {
-            background-color: #1e2125;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
-
-        .logo-container {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-        .login-container {
-            width: 400px;
-            padding: 20px;
-            background-color: #ffffff;
-            border-radius: 4px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-
-        .login-container h1 {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-        .login-container .form-group {
-            margin-bottom: 20px;
-        }
-
-        .login-container label {
-            font-weight: bold;
-        }
-
-        .login-container input[type="password"] {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-
-        .login-container button {
-            width: 100%;
-            padding: 10px;
-            background-color: #68d9b2;
-            color: #1e2125;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-
-        .login-container button:hover {
-            background-color: #59bf9b;
-        }
-    </style>
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
+    <!-- MDB -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.2/mdb.min.css" rel="stylesheet" />
 </head>
+<style>
+    body {
+        background-color: #1e2125;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
 
+    .container {
+        background-color: #1e2125;
+        width: 20%;
+        min-width: 500px;
+        font-size: small;
+    }
+
+    .container-fluid {
+        background-color: #1e2125;
+        border-radius: 8px;
+        text-align: center;
+    }
+
+    .card {
+        margin-top: 20px;
+        margin-bottom: 20px;
+        border-radius: 8px;
+        border: 0;
+    }
+
+    .btn-primary {
+        background-color: #68d9b2;
+        border: none;
+        border-radius: 4px;
+        color: #1e2125;
+        width: 100%;
+        font-size: small;
+        --mdb-btn-focus-color: #1e2125;
+        --mdb-btn-focus-bg: #68d9b2;
+        --mdb-btn-active-color: #1e2125;
+        --mdb-btn-active-bg: #68d9b2;
+    }
+
+    .btn-primary:hover {
+        background-color: #68d9b2;
+        border: none;
+        border-radius: 4px;
+        color: #1e2125;
+        opacity: 0.8;
+    }
+
+    .form-control:focus {
+        border-color: #68d9b2;
+        box-shadow: 0 0 0 0.25rem rgb(104 217 178 / 25%);
+    }
+</style>
 
 <body>
-    <div class="logo-container">
-        <img src="../static/images/lcm_logo_mint.png" alt="Logo" style="width: 400px;">
-    </div>
-    <div class="login-container">
-        <!-- <h1>Login</h1> -->
-        <form action="/" method="POST">
-            <div class="form-group">
-                <label for="password">Password:</label>
-                <input type="password" id="password" name="password" placeholder="Enter your password">
+
+    <div class="container">
+        <div class="container-fluid">
+            <img src="../static/images/lcm_logo_mint.png" alt="Logo" style="width: 400px;"
+                class="d-inline-block align-text-top">
+        </div>
+        </nav>
+        <div class="card">
+            <div class="card-body">
+                <form action="/" method="POST">
+                    <div class="mb-3">
+                        <label for="password" class="form-label"><b>Password</b></label>
+                        <input type="password" name="password" class="form-control" id="password">
+                    </div>
+                    <button type="submit" class="btn btn-primary"><b>Login</b></button>
+                </form>
+                {{ if .Error }}
+                <br>
+                <p style="color: red; text-align: center"><strong>{{ .Error }}</strong></p>
+                {{ end }}
             </div>
-            <button type="submit"><strong>Login</strong></button>
-        </form>
-        {{ if .Error }}
-        <br>
-        <p style="color: red; text-align: center"><strong>{{ .Error }}</strong></p>
-        {{ end }}
+        </div>
     </div>
+
+    <!-- MDB -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.2/mdb.min.js"></script>
 </body>
 
 </html>
