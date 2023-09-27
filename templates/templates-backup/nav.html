@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Local Cert Manager | Main</title>
+    <link rel="icon" href="../static/images/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="../static/images/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" type="text/css" href="../static/style/style.css">
+</head>
+
+<body>
+    <header class="masthead">
+        <ul>
+            <li>
+                <div class="logo">
+                    <img src="../static/images/lcm_logo_mint.png" alt="Logo">
+                </div>
+            </li>
+            <li>
+                <form action="/logout" method="POST">
+                    <button class="logout-button" type="submit"><strong>Logout</strong></button>
+                </form>
+            </li>
+        </ul>
+    </header>
+
+    <div class="navigation">
+
+        <ul>
+            <li class="list active">
+                <a href="/ca#tab1">
+                    <span class="title active" data-toggle="tab">Local Public CA</span>
+                </a>
+            </li>
+            <li class="list">
+                <a href="/cert#tab2">
+                    <span class="title" data-toggle="tab">Public Cert</span>
+                </a>
+            </li>
+            <li class="list">
+                <a href="#tab3">
+                    <span class="title" data-toggle="tab">Private Cert</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="content">
+        <div class="tab-content">
+            <div id="tab1" class="tab-pane active">
+                <div class="page">
+                    <h1 class="page-title">Local Public CA</h1>
+                    <div class="page-description">
+                        <p>
+                            <strong>Issued:</strong> {{ .Issued }}<br>
+                            <strong>Expiration:</strong> {{ .Expiration }}<br>
+                            <strong>Common Name:</strong> {{ .CommonName }}<br>
+                            <strong>Subject:</strong> {{ .Subject }}<br>
+                            <strong>Issuer:</strong> {{ .Issuer }}<br>
+                            <strong>DNS Names:</strong> {{ .DNSNames }}<br>
+                            <strong>IP Addresses:</strong> {{ .IPAddresses }}<br>
+                            <strong>Email Addresses:</strong> {{ .EmailAddresses }}<br>
+                            <strong>URIs:</strong> {{ .URIs }}
+                        </p>
+                    </div>
+                    <a href="/download/ca" class="download-button"><strong>Download</strong></a>
+                </div>
+            </div>
+            <div id="tab2" class="tab-pane">
+                <div class="page">
+                    <h1 class="page-title">Public SSL Cert</h1>
+                    <div class="page-description">
+                        <p>
+                            <strong>Issued:</strong> {{ .Issued }}<br>
+                            <strong>Expiration:</strong> {{ .Expiration }}<br>
+                            <strong>Common Name:</strong> {{ .CommonName }}<br>
+                            <strong>Subject:</strong> {{ .Subject }}<br>
+                            <strong>Issuer:</strong> {{ .Issuer }}<br>
+                            <strong>DNS Names:</strong> {{ .DNSNames }}<br>
+                            <strong>IP Addresses:</strong> {{ .IPAddresses }}<br>
+                            <strong>Email Addresses:</strong> {{ .EmailAddresses }}<br>
+                            <strong>URIs:</strong> {{ .URIs }}
+                        </p>
+                    </div>
+                    <a href="/download/cert" class="download-button"><strong>Download</strong></a>
+                </div>
+            </div>
+            <div id="tab3" class="tab-pane">
+                <div class="page">
+                    <h1 class="page-title">Private SSL Cert</h1>
+                    <div class="page-description">
+                        <p>
+                            <strong>Issued:</strong> {{ .Issued }}<br>
+                            <strong>Expiration:</strong> {{ .Expiration }}<br>
+                            <strong>Common Name:</strong> {{ .CommonName }}<br>
+                            <strong>Subject:</strong> {{ .Subject }}<br>
+                            <strong>Issuer:</strong> {{ .Issuer }}<br>
+                            <strong>DNS Names:</strong> {{ .DNSNames }}<br>
+                            <strong>IP Addresses:</strong> {{ .IPAddresses }}<br>
+                            <strong>Email Addresses:</strong> {{ .EmailAddresses }}<br>
+                            <strong>URIs:</strong> {{ .URIs }}
+                        </p>
+                    </div>
+                    <a href="/download/certKey" class="download-button"><strong>Download</strong></a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Get all the list items
+        var listItems = document.querySelectorAll('.list');
+
+        // Get all the title elements
+        var titleElements = document.querySelectorAll('.title');
+
+        // Get all the tab-pane elements
+        var tabPanes = document.querySelectorAll('.tab-pane');
+
+        // Function to handle tab selection
+        function handleTabSelection(url, listItem, titleElement, tabPane) {
+            // Remove active class from previously active elements
+            var activeListItem = document.querySelector('.list.active');
+            var activeTitleElement = document.querySelector('.title.active');
+            var activeTabPane = document.querySelector('.tab-pane.active');
+
+            activeListItem.classList.remove('active');
+            activeTitleElement.classList.remove('active');
+            activeTabPane.classList.remove('active');
+
+            // Add active class to the clicked elements
+            listItem.classList.add('active');
+            titleElement.classList.add('active');
+            tabPane.classList.add('active');
+
+            // Fetch the URL or perform any other necessary action
+            fetch(url)
+                .then(response => {
+                    if (response.ok) {
+                        console.log("Request successful!");
+                    } else {
+                        console.error("Request failed:", response.status);
+                    }
+                })
+                .catch(error => {
+                    console.error("Network error:", error);
+                });
+        }
+
+        // Attach click event listeners to the list items
+        listItems.forEach(function (listItem, index) {
+            var url;
+            var titleElement = titleElements[index];
+            var tabPane = tabPanes[index];
+
+            if (index === 0) {
+                // URL for the first list item
+                url = '/ca#tab1';
+            } else if (index === 1) {
+                // URL for the second list item
+                url = '/cert#tab2';
+            } else if (index === 2) {
+                // URL for the third list item
+                url = '#tab3';
+            }
+
+            listItem.addEventListener('click', function () {
+                handleTabSelection(url, listItem, titleElement, tabPane);
+            });
+        });
+    </script>
+</body>
+
+</html>
