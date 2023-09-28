@@ -78,6 +78,7 @@ if generate_certs; then
 else
     echo "Certs generation failed."
     cp -r certs-backup/* certs/
+    echo "Restored certs from backup."
     rm -rf certs-backup
     exit 1
 fi
