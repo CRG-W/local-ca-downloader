@@ -4,173 +4,315 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Local Cert Manager | Main</title>
-    <link rel="icon" href="../static/images/favicon.ico" type="image/x-icon">
+    <title>Local Cert Manager</title>
     <link rel="shortcut icon" href="../static/images/favicon.ico" type="image/x-icon">
-    <link rel="stylesheet" type="text/css" href="../static/style/style.css">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
+    <!-- MDB -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.2/mdb.min.css" rel="stylesheet" />
 </head>
 
+<style>
+    body {
+        background-color: #1e2125;
+        padding-top: 60px;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
+
+    .container {
+        background-color: #1e2125;
+        width: 50%;
+        max-height: 80%;
+        min-width: 700px;
+        font-size: small;
+    }
+
+    .container-fluid.main-bar {
+        background-color: #68d9b2;
+        border-radius: 8px;
+        text-align: center;
+        display: flex;
+        justify-content: space-between;
+        padding: 10px;
+        padding-right: 20px;
+        align-items: center;
+    }
+
+
+    .card {
+        background-color: #fff;
+        margin-top: 20px;
+        margin-bottom: 20px;
+        border-radius: 8px;
+        border: 0;
+    }
+
+    .card.top-level {
+        background-color: #1e2125;
+        margin-top: 20px;
+        margin-bottom: 20px;
+        border-radius: 8px;
+        border: 0;
+    }
+
+    .card-body.main-body {
+        padding: 0;
+    }
+
+    .btn-primary {
+        background-color: #68d9b2;
+        border: none;
+        border-radius: 4px;
+        color: #1e2125;
+        width: 100%;
+        font-size: small;
+        --mdb-btn-focus-color: #1e2125;
+        --mdb-btn-focus-bg: #68d9b2;
+        --mdb-btn-active-color: #1e2125;
+        --mdb-btn-active-bg: #68d9b2;
+    }
+
+    .col-4.cert-card {
+        flex: auto;
+        min-width: 400px;
+    }
+
+    .btn-primary:hover {
+        background-color: #68d9b2;
+        /* border: none; */
+        border-radius: 4px;
+        color: #1e2125;
+        opacity: 0.8;
+    }
+
+    .btn-outline-success {
+        background-color: #1e2125;
+        --mdb-btn-hover-color: null;
+        color: #68d9b2;
+        border: none;
+        border-radius: 4px;
+        height: 50%;
+        align-self: center;
+    }
+
+    .form-control:focus {
+        border-color: #68d9b2;
+        box-shadow: 0 0 0 0.25rem rgb(104 217 178 / 25%);
+    }
+
+    .logout-button {
+        display: flex;
+        margin-top: 10px;
+        border: 0px;
+        justify-content: center;
+        width: 120px;
+        margin-left: auto;
+        margin-right: 0;
+        padding: 10px 10px;
+        background-color: #68D9B2;
+        color: #2b343b;
+        text-decoration: none;
+        border-radius: 10px;
+        position: absolute;
+        top: 0;
+        right: 0;
+    }
+
+    .nav-tabs .nav-link {
+        border-radius: 10px;
+        --mdb-nav-tabs-link-color: #68D9B2;
+        /* hover */
+        --mdb-nav-tabs-link-hover-bgc: #1e2125;
+        --mdb-nav-tabs-link-hover-color: #1e2125;
+        /* Active */
+        --mdb-nav-tabs-link-active-bg: #1e2125;
+        --mdb-nav-tabs-link-active-color: #68d9b2;
+        --mdb-nav-tabs-link-active-border-color: #68d9b2;
+    }
+
+    .logout-button:hover {
+        background-color: #5ac09c;
+    }
+
+    .form {
+        padding-bottom: 15px;
+    }
+</style>
+
 <body>
-    <header class="masthead">
-        <ul>
-            <li>
-                <div class="logo">
-                    <img src="../static/images/lcm_logo_mint.png" alt="Logo">
-                </div>
-            </li>
-            <li>
-                <form action="/logout" method="POST">
-                    <button class="logout-button" type="submit"><strong>Logout</strong></button>
-                </form>
-            </li>
-        </ul>
-    </header>
+    <div class="container">
+        {{ if .Error }}
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            <strong>{{ .Error }}</strong>
+            <button type="button" class="btn-close" data-mdb-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {{ end }}
+        {{ if .Success }}
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <strong>{{ .Success }}</strong>
+            <button type="button" class="btn-close" data-mdb-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {{ end }}
+        <div class="container-fluid main-bar">
+            <img src="../static/images/lcm_logo_black.png" alt="Logo" style="width: 300px;"
+                class="d-inline-block align-text-top">
+            <form action="/logout" method="POST">
+                <button class="btn btn-outline-success" type="submit">Logout</button>
+            </form>
+        </div>
+        <div class="card top-level">
+            <div class="card-body main-body">
+                <!-- Tabs navs -->
+                <ul class="nav nav-tabs nav-fill mb-3" id="ex1" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link active" id="ex2-tab-1" data-mdb-toggle="tab" href="#certs" role="tab"
+                            aria-controls="certs" aria-selected="true">Current Certs</a>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link" id="ex2-tab-2" data-mdb-toggle="tab" href="#gen-certs" role="tab"
+                            aria-controls="gen-certs" aria-selected="false">Generate New Certs</a>
+                    </li>
+                </ul>
+                <!-- Tabs navs -->
 
-    <div class="navigation">
+                <!-- Tabs content -->
+                <div class="tab-content" id="ex2-content">
+                    <div class="tab-pane fade show active" id="certs" role="tabpanel" aria-labelledby="ex2-tab-1">
+                        <div class="row">
+                            <div class="col-4 cert-card">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Local Public CA</h5>
+                                        <p class="card-text">
+                                            <strong>Issued:</strong> {{ .Issued }}<br>
+                                            <strong>Expiration:</strong> {{ .Expiration }}<br>
+                                            <strong>Common Name:</strong> {{ .CommonName }}<br>
+                                            <strong>Subject:</strong> {{ .Subject }}<br>
+                                            <strong>Issuer:</strong> {{ .Issuer }}<br>
+                                            <strong>DNS Names:</strong> {{ .DNSNames }}<br>
+                                            <strong>IP Addresses:</strong> {{ .IPAddresses }}<br>
+                                            <strong>Email Addresses:</strong> {{ .EmailAddresses }}<br>
+                                            <strong>URIs:</strong> {{ .URIs }}
+                                        </p>
+                                        <a href="/download/ca" class="btn btn-primary">Download</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-4 cert-card">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Public TLS Cert</h5>
+                                        <p class="card-text">
+                                            <strong>Issued:</strong> {{ .Issued }}<br>
+                                            <strong>Expiration:</strong> {{ .Expiration }}<br>
+                                            <strong>Common Name:</strong> {{ .CommonName }}<br>
+                                            <strong>Subject:</strong> {{ .Subject }}<br>
+                                            <strong>Issuer:</strong> {{ .Issuer }}<br>
+                                            <strong>DNS Names:</strong> {{ .DNSNames }}<br>
+                                            <strong>IP Addresses:</strong> {{ .IPAddresses }}<br>
+                                            <strong>Email Addresses:</strong> {{ .EmailAddresses }}<br>
+                                            <strong>URIs:</strong> {{ .URIs }}
+                                        </p>
+                                        <a href="/download/cert" class="btn btn-primary">Download</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-4 cert-card">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Private TLS Cert</h5>
+                                        <p class="card-text">
+                                            <strong>Issued:</strong> {{ .Issued }}<br>
+                                            <strong>Expiration:</strong> {{ .Expiration }}<br>
+                                            <strong>Common Name:</strong> {{ .CommonName }}<br>
+                                            <strong>Subject:</strong> {{ .Subject }}<br>
+                                            <strong>Issuer:</strong> {{ .Issuer }}<br>
+                                            <strong>DNS Names:</strong> {{ .DNSNames }}<br>
+                                            <strong>IP Addresses:</strong> {{ .IPAddresses }}<br>
+                                            <strong>Email Addresses:</strong> {{ .EmailAddresses }}<br>
+                                            <strong>URIs:</strong> {{ .URIs }}
+                                        </p>
+                                        <a href="/download/certKey" class="btn btn-primary">Download</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="gen-certs" role="tabpanel" aria-labelledby="ex2-tab-2">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4>Certificate Authority Information</h4>
+                                <form action="/generate" method="POST">
+                                    <div class="form-group">
+                                        <label for="ca_subject">Certificate Authority Subject:</label>
+                                        <input type="text" class="form-control" id="ca_subject" name="ca_subject"
+                                            required>
+                                        <small class="form-text text-muted">(e.g.,
+                                            /C=US/ST=AZ/L=Phoenix/O=Home/CN=HomeLab)</small>
+                                    </div>
 
-        <ul>
-            <li class="list active">
-                <a href="/ca#tab1">
-                    <span class="title active" data-toggle="tab">Local Public CA</span>
-                </a>
-            </li>
-            <li class="list">
-                <a href="/cert#tab2">
-                    <span class="title" data-toggle="tab">Public Cert</span>
-                </a>
-            </li>
-            <li class="list">
-                <a href="#tab3">
-                    <span class="title" data-toggle="tab">Private Cert</span>
-                </a>
-            </li>
-        </ul>
-    </div>
+                                    <br>
 
-    <div class="content">
-        <div class="tab-content">
-            <div id="tab1" class="tab-pane active">
-                <div class="page">
-                    <h1 class="page-title">Local Public CA</h1>
-                    <div class="page-description">
-                        <p>
-                            <strong>Issued:</strong> {{ .Issued }}<br>
-                            <strong>Expiration:</strong> {{ .Expiration }}<br>
-                            <strong>Common Name:</strong> {{ .CommonName }}<br>
-                            <strong>Subject:</strong> {{ .Subject }}<br>
-                            <strong>Issuer:</strong> {{ .Issuer }}<br>
-                            <strong>DNS Names:</strong> {{ .DNSNames }}<br>
-                            <strong>IP Addresses:</strong> {{ .IPAddresses }}<br>
-                            <strong>Email Addresses:</strong> {{ .EmailAddresses }}<br>
-                            <strong>URIs:</strong> {{ .URIs }}
-                        </p>
+                                    <div class="form-group">
+                                        <label for="ca_ttl">Certificate Authority TTL Days:</label>
+                                        <input type="number" class="form-control" id="ca_ttl" name="ca_ttl" required>
+                                        <small class="form-text text-muted">(e.g., 365)</small>
+                                    </div>
+
+                                    <br>
+
+                                    <div class="form-group">
+                                        <label for="ca_passphrase">Certificate Authority Passphrase:</label>
+                                        <input type="password" class="form-control" id="ca_passphrase"
+                                            name="ca_passphrase" required>
+                                        <small class="form-text text-muted">(e.g., YourSecurePassphrase)</small>
+                                    </div>
+
+                                    <br>
+
+                                    <h4>TLS Certificate Information</h4>
+
+                                    <div class="form-group">
+                                        <label for="tls_cn">TLS Certificate CN:</label>
+                                        <input type="text" class="form-control" id="tls_cn" name="tls_cn" required>
+                                        <small class="form-text text-muted">(e.g., HomeLab)</small>
+                                    </div>
+
+                                    <br>
+
+                                    <div class="form-group">
+                                        <label for="tls_ttl">TLS Certificate TTL Days:</label>
+                                        <input type="number" class="form-control" id="tls_ttl" name="tls_ttl" required>
+                                        <small class="form-text text-muted">(e.g., 365)</small>
+                                    </div>
+
+                                    <br>
+
+                                    <div class="form-group">
+                                        <label for="tls_alt_names">TLS Certificate ALT Names:</label>
+                                        <input type="text" class="form-control" id="tls_alt_names" name="tls_alt_names"
+                                            required>
+                                        <small class="form-text text-muted">(e.g., DNS:localhost,IP:127.0.0.1)</small>
+                                    </div>
+
+                                    <br>
+
+                                    <button type="submit" class="btn btn-primary">Generate</button>
+                                </form>
+                            </div>
+                        </div>
                     </div>
-                    <a href="/download/ca" class="download-button"><strong>Download</strong></a>
                 </div>
-            </div>
-            <div id="tab2" class="tab-pane">
-                <div class="page">
-                    <h1 class="page-title">Public SSL Cert</h1>
-                    <div class="page-description">
-                        <p>
-                            <strong>Issued:</strong> {{ .Issued }}<br>
-                            <strong>Expiration:</strong> {{ .Expiration }}<br>
-                            <strong>Common Name:</strong> {{ .CommonName }}<br>
-                            <strong>Subject:</strong> {{ .Subject }}<br>
-                            <strong>Issuer:</strong> {{ .Issuer }}<br>
-                            <strong>DNS Names:</strong> {{ .DNSNames }}<br>
-                            <strong>IP Addresses:</strong> {{ .IPAddresses }}<br>
-                            <strong>Email Addresses:</strong> {{ .EmailAddresses }}<br>
-                            <strong>URIs:</strong> {{ .URIs }}
-                        </p>
-                    </div>
-                    <a href="/download/cert" class="download-button"><strong>Download</strong></a>
-                </div>
-            </div>
-            <div id="tab3" class="tab-pane">
-                <div class="page">
-                    <h1 class="page-title">Private SSL Cert</h1>
-                    <div class="page-description">
-                        <p>
-                            <strong>Issued:</strong> {{ .Issued }}<br>
-                            <strong>Expiration:</strong> {{ .Expiration }}<br>
-                            <strong>Common Name:</strong> {{ .CommonName }}<br>
-                            <strong>Subject:</strong> {{ .Subject }}<br>
-                            <strong>Issuer:</strong> {{ .Issuer }}<br>
-                            <strong>DNS Names:</strong> {{ .DNSNames }}<br>
-                            <strong>IP Addresses:</strong> {{ .IPAddresses }}<br>
-                            <strong>Email Addresses:</strong> {{ .EmailAddresses }}<br>
-                            <strong>URIs:</strong> {{ .URIs }}
-                        </p>
-                    </div>
-                    <a href="/download/certKey" class="download-button"><strong>Download</strong></a>
-                </div>
+                <!-- Tabs content -->
             </div>
         </div>
     </div>
-
-    <script>
-        // Get all the list items
-        var listItems = document.querySelectorAll('.list');
-
-        // Get all the title elements
-        var titleElements = document.querySelectorAll('.title');
-
-        // Get all the tab-pane elements
-        var tabPanes = document.querySelectorAll('.tab-pane');
-
-        // Function to handle tab selection
-        function handleTabSelection(url, listItem, titleElement, tabPane) {
-            // Remove active class from previously active elements
-            var activeListItem = document.querySelector('.list.active');
-            var activeTitleElement = document.querySelector('.title.active');
-            var activeTabPane = document.querySelector('.tab-pane.active');
-
-            activeListItem.classList.remove('active');
-            activeTitleElement.classList.remove('active');
-            activeTabPane.classList.remove('active');
-
-            // Add active class to the clicked elements
-            listItem.classList.add('active');
-            titleElement.classList.add('active');
-            tabPane.classList.add('active');
-
-            // Fetch the URL or perform any other necessary action
-            fetch(url)
-                .then(response => {
-                    if (response.ok) {
-                        console.log("Request successful!");
-                    } else {
-                        console.error("Request failed:", response.status);
-                    }
-                })
-                .catch(error => {
-                    console.error("Network error:", error);
-                });
-        }
-
-        // Attach click event listeners to the list items
-        listItems.forEach(function (listItem, index) {
-            var url;
-            var titleElement = titleElements[index];
-            var tabPane = tabPanes[index];
-
-            if (index === 0) {
-                // URL for the first list item
-                url = '/ca#tab1';
-            } else if (index === 1) {
-                // URL for the second list item
-                url = '/cert#tab2';
-            } else if (index === 2) {
-                // URL for the third list item
-                url = '#tab3';
-            }
-
-            listItem.addEventListener('click', function () {
-                handleTabSelection(url, listItem, titleElement, tabPane);
-            });
-        });
-    </script>
+    <!-- MDB -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.2/mdb.min.js"></script>
 </body>
 
 </html>

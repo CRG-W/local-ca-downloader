@@ -6,7 +6,6 @@ import (
 	"fmt"
 	"html/template"
 	"io"
-	"local-ca-downloader/internal/certificate"
 	"net/http"
 	"os"
 	"os/exec"
@@ -74,13 +73,14 @@ func main() {
 	e.Renderer = createRenderer()
 
 	// Build Cert-Details for all Certs
-	publicCADetails := certificate.BuildCertificateDetails("certs/public-ca.pem")
-	publicCertDetails := certificate.BuildCertificateDetails("certs/cert.pem")
+	// publicCADetails := certificate.BuildCertificateDetails("certs/public-ca.pem")
+	// publicCertDetails := certificate.BuildCertificateDetails("certs/cert.pem")
 	// privateCertDetails := certificate.BuildCertificateDetails("certs/cert-key.pem")
 
 	// Routes
 	e.Any("/", func(c echo.Context) error {
-		return c.Render(http.StatusOK, "nav.html", publicCADetails)
+		// return c.Render(http.StatusOK, "nav.html", publicCADetails)
+		return c.Render(http.StatusOK, "nav.html", nil)
 	}, authMiddleware)
 
 	e.GET("/login", func(c echo.Context) error {
@@ -88,13 +88,13 @@ func main() {
 		return c.Render(http.StatusOK, "login.html", nil)
 	})
 
-	e.GET("/ca", func(c echo.Context) error {
-		return c.Render(http.StatusOK, "nav.html", publicCADetails)
-	}, authMiddleware)
+	// e.GET("/ca", func(c echo.Context) error {
+	// 	return c.Render(http.StatusOK, "nav.html", publicCADetails)
+	// }, authMiddleware)
 
-	e.GET("/cert", func(c echo.Context) error {
-		return c.Render(http.StatusOK, "nav.html", publicCertDetails)
-	}, authMiddleware)
+	// e.GET("/cert", func(c echo.Context) error {
+	// 	return c.Render(http.StatusOK, "nav.html", publicCertDetails)
+	// }, authMiddleware)
 
 	// e.GET("/certKey", func(c echo.Context) error {
 	// 	return c.Render(http.StatusOK, "nav.html", privateCertDetails)
@@ -114,9 +114,9 @@ func main() {
 
 	e.POST("/logout", deleteCookieHandler)
 
-	e.GET("/generate-certs", func(c echo.Context) error {
-		return c.Render(http.StatusOK, "generate-certs.html", nil)
-	}, authMiddleware)
+	// e.GET("/generate-certs", func(c echo.Context) error {
+	// 	return c.Render(http.StatusOK, "generate-certs.html", nil)
+	// }, authMiddleware)
 
 	e.POST("/generate", generateNewCerts, authMiddleware)
 
@@ -186,10 +186,10 @@ func generateNewCerts(c echo.Context) error {
 		data := map[string]interface{}{
 			"Error": "Error generating new certs, original certs have been restored. Please check your input and try again.",
 		}
-		return c.Render(http.StatusOK, "generate-certs.html", data)
+		return c.Render(http.StatusOK, "nav.html", data)
 	}
 	data := map[string]interface{}{
 		"Success": "Certificate generated successfully.",
 	}
-	return c.Render(http.StatusOK, "generate-certs.html", data)
+	return c.Render(http.StatusOK, "nav.html", data)
 }
