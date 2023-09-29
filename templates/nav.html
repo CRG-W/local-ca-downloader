@@ -51,6 +51,10 @@
         border: 0;
     }
 
+    p.card-text.cert-data {
+        min-height: 190px;
+    }
+
     .card.top-level {
         background-color: #1e2125;
         margin-top: 20px;
@@ -187,16 +191,16 @@
                                 <div class="card">
                                     <div class="card-body">
                                         <h5 class="card-title">Local Public CA</h5>
-                                        <p class="card-text">
-                                            <strong>Issued:</strong> {{ .Issued }}<br>
-                                            <strong>Expiration:</strong> {{ .Expiration }}<br>
-                                            <strong>Common Name:</strong> {{ .CommonName }}<br>
-                                            <strong>Subject:</strong> {{ .Subject }}<br>
-                                            <strong>Issuer:</strong> {{ .Issuer }}<br>
-                                            <strong>DNS Names:</strong> {{ .DNSNames }}<br>
-                                            <strong>IP Addresses:</strong> {{ .IPAddresses }}<br>
-                                            <strong>Email Addresses:</strong> {{ .EmailAddresses }}<br>
-                                            <strong>URIs:</strong> {{ .URIs }}
+                                        <p class="card-text cert-data">
+                                            <strong>Issued:</strong> {{ .CA.Issued }}<br>
+                                            <strong>Expiration:</strong> {{ .CA.Expiration }}<br>
+                                            <strong>Common Name:</strong> {{ .CA.CommonName }}<br>
+                                            <strong>Subject:</strong> {{ .CA.Subject }}<br>
+                                            <strong>Issuer:</strong> {{ .CA.Issuer }}<br>
+                                            <strong>DNS Names:</strong> {{ .CA.DNSNames }}<br>
+                                            <strong>IP Addresses:</strong> {{ .CA.IPAddresses }}<br>
+                                            <strong>Email Addresses:</strong> {{ .CA.EmailAddresses }}<br>
+                                            <strong>URIs:</strong> {{ .CA.URIs }}
                                         </p>
                                         <a href="/download/ca" class="btn btn-primary">Download</a>
                                     </div>
@@ -206,16 +210,16 @@
                                 <div class="card">
                                     <div class="card-body">
                                         <h5 class="card-title">Public TLS Cert</h5>
-                                        <p class="card-text">
-                                            <strong>Issued:</strong> {{ .Issued }}<br>
-                                            <strong>Expiration:</strong> {{ .Expiration }}<br>
-                                            <strong>Common Name:</strong> {{ .CommonName }}<br>
-                                            <strong>Subject:</strong> {{ .Subject }}<br>
-                                            <strong>Issuer:</strong> {{ .Issuer }}<br>
-                                            <strong>DNS Names:</strong> {{ .DNSNames }}<br>
-                                            <strong>IP Addresses:</strong> {{ .IPAddresses }}<br>
-                                            <strong>Email Addresses:</strong> {{ .EmailAddresses }}<br>
-                                            <strong>URIs:</strong> {{ .URIs }}
+                                        <p class="card-text cert-data">
+                                            <strong>Issued:</strong> {{ .Cert.Issued }}<br>
+                                            <strong>Expiration:</strong> {{ .Cert.Expiration }}<br>
+                                            <strong>Common Name:</strong> {{ .Cert.CommonName }}<br>
+                                            <strong>Subject:</strong> {{ .Cert.Subject }}<br>
+                                            <strong>Issuer:</strong> {{ .Cert.Issuer }}<br>
+                                            <strong>DNS Names:</strong> {{ .Cert.DNSNames }}<br>
+                                            <strong>IP Addresses:</strong> {{ .Cert.IPAddresses }}<br>
+                                            <strong>Email Addresses:</strong> {{ .Cert.EmailAddresses }}<br>
+                                            <strong>URIs:</strong> {{ .Cert.URIs }}
                                         </p>
                                         <a href="/download/cert" class="btn btn-primary">Download</a>
                                     </div>
@@ -225,16 +229,9 @@
                                 <div class="card">
                                     <div class="card-body">
                                         <h5 class="card-title">Private TLS Cert</h5>
-                                        <p class="card-text">
-                                            <strong>Issued:</strong> {{ .Issued }}<br>
-                                            <strong>Expiration:</strong> {{ .Expiration }}<br>
-                                            <strong>Common Name:</strong> {{ .CommonName }}<br>
-                                            <strong>Subject:</strong> {{ .Subject }}<br>
-                                            <strong>Issuer:</strong> {{ .Issuer }}<br>
-                                            <strong>DNS Names:</strong> {{ .DNSNames }}<br>
-                                            <strong>IP Addresses:</strong> {{ .IPAddresses }}<br>
-                                            <strong>Email Addresses:</strong> {{ .EmailAddresses }}<br>
-                                            <strong>URIs:</strong> {{ .URIs }}
+                                        <p class="card-text cert-data">
+                                            The cert-key.pem contains a private key and not a certificate. Detail of the
+                                            Private Key will not be displayed. However, you can still download it.
                                         </p>
                                         <a href="/download/certKey" class="btn btn-primary">Download</a>
                                     </div>
