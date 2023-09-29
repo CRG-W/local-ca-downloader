@@ -147,16 +147,23 @@
     }
 </style>
 
-<body>
+
+
+
+<body>    
     <div class="container">
         {{ if .Error }}
         <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            <i class="fas fa-triangle-exclamation fa-lg"></i>
+            <span>&nbsp;</span>
             <strong>{{ .Error }}</strong>
             <button type="button" class="btn-close" data-mdb-dismiss="alert" aria-label="Close"></button>
         </div>
         {{ end }}
         {{ if .Success }}
         <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <i class="fas fa-circle-check fa-lg"></i>
+            <span>&nbsp;</span>
             <strong>{{ .Success }}</strong>
             <button type="button" class="btn-close" data-mdb-dismiss="alert" aria-label="Close"></button>
         </div>
@@ -230,7 +237,7 @@
                                     <div class="card-body">
                                         <h5 class="card-title">Private TLS Cert</h5>
                                         <p class="card-text cert-data">
-                                            The cert-key.pem contains a private key and not a certificate. Detail of the
+                                            The "cert-key.pem" contains a private key and not a certificate. Details of the
                                             Private Key will not be displayed. However, you can still download it.
                                         </p>
                                         <a href="/download/certKey" class="btn btn-primary">Download</a>
