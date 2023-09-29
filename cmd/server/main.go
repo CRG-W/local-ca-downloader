@@ -2,7 +2,6 @@ package main
 
 import (
 	"bytes"
-	"encoding/base64"
 	"fmt"
 	"html/template"
 	"io"
@@ -14,6 +13,7 @@ import (
 
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
+	"golang.org/x/crypto/bcrypt"
 )
 
 func main() {
@@ -25,6 +25,8 @@ func main() {
 
 	// Define the password for accessing the application
 	password := os.Getenv("AUTH_PASSWORD")
+	hashedPassword, _ := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
+	hashedPasswordString := string(hashedPassword)
 
 	// Middleware to validate the password or check the authentication cookie
 	authMiddleware := func(next echo.HandlerFunc) echo.HandlerFunc {
@@ -33,7 +35,7 @@ func main() {
 			cookie, err := c.Cookie("authenticated")
 
 			// Check if the cookie is not present or the cookie value doesn't match the encoded password
-			if err != nil || cookie.Value != encodeBase64(password) {
+			if err != nil || cookie.Value != hashedPasswordString {
 				// Get the password from the request form
 				reqPassword := c.FormValue("password")
 
@@ -57,7 +59,7 @@ func main() {
 				// Set the authentication cookie with the base64 encoded password and expiration time
 				cookie := &http.Cookie{
 					Name:     "authenticated",
-					Value:    encodeBase64(password),
+					Value:    hashedPasswordString,
 					Path:     "/",
 					HttpOnly: true,
 					MaxAge:   900, // 15 minutes (in seconds)
@@ -136,11 +138,6 @@ func createRenderer() echo.Renderer {
 		templates: template.Must(template.ParseGlob("templates/*.html")),
 	}
 	return t
-}
-
-// Function to base64 encode a string
-func encodeBase64(str string) string {
-	return base64.StdEncoding.EncodeToString([]byte(str))
 }
 
 // Function to delete a cookie (Basically it just clears the cookie out)
