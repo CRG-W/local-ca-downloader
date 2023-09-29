@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"html/template"
 	"io"
+	"local-ca-downloader/internal/certificate"
 	"net/http"
 	"os"
 	"os/exec"
@@ -72,33 +73,23 @@ func main() {
 	// Register the HTML template renderer
 	e.Renderer = createRenderer()
 
-	// Build Cert-Details for all Certs
-	// publicCADetails := certificate.BuildCertificateDetails("certs/public-ca.pem")
-	// publicCertDetails := certificate.BuildCertificateDetails("certs/cert.pem")
-	// privateCertDetails := certificate.BuildCertificateDetails("certs/cert-key.pem")
-
 	// Routes
 	e.Any("/", func(c echo.Context) error {
-		// return c.Render(http.StatusOK, "nav.html", publicCADetails)
-		return c.Render(http.StatusOK, "nav.html", nil)
+		publicCADetails := certificate.BuildCertificateDetails("certs/public-ca.pem")
+		publicCertDetails := certificate.BuildCertificateDetails("certs/cert.pem")
+
+		data := map[string]interface{}{
+			"CA":   publicCADetails,
+			"Cert": publicCertDetails,
+		}
+
+		return c.Render(http.StatusOK, "nav.html", data)
 	}, authMiddleware)
 
 	e.GET("/login", func(c echo.Context) error {
 		// Render the login page
 		return c.Render(http.StatusOK, "login.html", nil)
 	})
-
-	// e.GET("/ca", func(c echo.Context) error {
-	// 	return c.Render(http.StatusOK, "nav.html", publicCADetails)
-	// }, authMiddleware)
-
-	// e.GET("/cert", func(c echo.Context) error {
-	// 	return c.Render(http.StatusOK, "nav.html", publicCertDetails)
-	// }, authMiddleware)
-
-	// e.GET("/certKey", func(c echo.Context) error {
-	// 	return c.Render(http.StatusOK, "nav.html", privateCertDetails)
-	// }, authMiddleware)
 
 	e.GET("/download/ca", func(c echo.Context) error {
 		return c.Attachment("certs/public-ca.pem", "public-ca.pem")
@@ -113,10 +104,6 @@ func main() {
 	}, authMiddleware)
 
 	e.POST("/logout", deleteCookieHandler)
-
-	// e.GET("/generate-certs", func(c echo.Context) error {
-	// 	return c.Render(http.StatusOK, "generate-certs.html", nil)
-	// }, authMiddleware)
 
 	e.POST("/generate", generateNewCerts, authMiddleware)
 
@@ -182,14 +169,23 @@ func generateNewCerts(c echo.Context) error {
 	cmd.Stderr = os.Stderr
 
 	err := cmd.Run()
+
+	publicCADetails := certificate.BuildCertificateDetails("certs/public-ca.pem")
+	publicCertDetails := certificate.BuildCertificateDetails("certs/cert.pem")
+
 	if err != nil {
 		data := map[string]interface{}{
 			"Error": "Error generating new certs, original certs have been restored. Please check your input and try again.",
+			"CA":    publicCADetails,
+			"Cert":  publicCertDetails,
 		}
 		return c.Render(http.StatusOK, "nav.html", data)
 	}
+
 	data := map[string]interface{}{
 		"Success": "Certificate generated successfully.",
+		"CA":      publicCADetails,
+		"Cert":    publicCertDetails,
 	}
 	return c.Render(http.StatusOK, "nav.html", data)
 }
