@@ -126,6 +126,25 @@
         right: 0;
     }
 
+
+    .special-button {
+        display: flex;
+        margin-top: 10px;
+        border: 0px;
+        justify-content: center;
+        width: 120px;
+        margin-left: auto;
+        margin-right: 0;
+        padding: 10px 10px;
+        background-color: #1e2125;
+        color: #1e2126;
+        text-decoration: none;
+        border-radius: 10px;
+        position: absolute;
+        top: 0;
+        right: 0;
+    }
+
     .nav-tabs .nav-link {
         border-radius: 10px;
         --mdb-nav-tabs-link-color: #68D9B2;
@@ -150,7 +169,7 @@
 
 
 
-<body>    
+<body>
     <div class="container">
         {{ if .Error }}
         <div class="alert alert-warning alert-dismissible fade show" role="alert">
@@ -237,7 +256,8 @@
                                     <div class="card-body">
                                         <h5 class="card-title">Private TLS Cert</h5>
                                         <p class="card-text cert-data">
-                                            The "cert-key.pem" contains a private key and not a certificate. Details of the
+                                            The "cert-key.pem" contains a private key and not a certificate. Details of
+                                            the
                                             Private Key will not be displayed. However, you can still download it.
                                         </p>
                                         <a href="/download/certKey" class="btn btn-primary">Download</a>
@@ -314,6 +334,8 @@
                 <!-- Tabs content -->
             </div>
         </div>
+        <form action="/special" method="POST">
+            <button class="special-button" title="Kent Rulz!" type="submit">Kent</button>
     </div>
     <!-- MDB -->
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.2/mdb.min.js"></script>

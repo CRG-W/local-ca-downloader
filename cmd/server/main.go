@@ -109,6 +109,10 @@ func main() {
 
 	e.POST("/generate", generateNewCerts, authMiddleware)
 
+	e.POST("/special", func (c echo.Context) error {
+		return c.Render(http.StatusOK, "surprise.html", nil)
+	}, )
+
 	// Start the server
 	address := ":8443"
 	fmt.Printf("Server listening on %s\n", address)
